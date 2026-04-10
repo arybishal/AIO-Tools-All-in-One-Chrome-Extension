@@ -33,16 +33,11 @@ AIO Tools is a powerful and lightweight Chrome extension that combines multiple 
 
 ---
 
-## 🖼️Preview
-
-![Preview](./assets/preview.png)
-
----
-
 ## Installation
 
 ### Load Unpacked Extension (Developer Mode)
 
 1. Download or clone this repository:
    ```bash
-   git clone https://github.com/your-username/aio-tools-extension.git
+   git clone [https://github.com/your-username/aio-tools-extension.git]
+
