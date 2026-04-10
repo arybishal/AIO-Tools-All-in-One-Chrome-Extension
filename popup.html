@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIO - All In One Tools</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <h1 class="app-title">AIO</h1>
+        <span class="app-subtitle">All In One Tools</span>
+      </div>
+      <div class="version-badge">v1.0.3</div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Feature Tiles -->
+      <div class="tiles-grid">
+        <!-- Tab Manager Tile -->
+        <div class="feature-tile" data-feature="tab-manager">
+          <div class="tile-icon">📑</div>
+          <div class="tile-content">
+            <h3 class="tile-title">Tab Manager</h3>
+            <p class="tile-desc">Save and organize your favorite URLs</p>
+          </div>
+          <div class="tile-counter" id="tileUrlCounter">0 URLs</div>
+        </div>
+
+        <!-- Screenshot Tool Tile -->
+        <div class="feature-tile" data-feature="screenshot-tool">
+          <div class="tile-icon">📸</div>
+          <div class="tile-content">
+            <h3 class="tile-title">Screenshot</h3>
+            <p class="tile-desc">Capture and edit screenshots</p>
+          </div>
+        </div>
+
+        <!-- PiP Video Tile -->
+        <div class="feature-tile" data-feature="pip-tool">
+          <div class="tile-icon">🎬</div>
+          <div class="tile-content">
+            <h3 class="tile-title">PiP Video</h3>
+            <p class="tile-desc">Floating video player</p>
+          </div>
+        </div>
+
+        <!-- Right Click Enabler Tile -->
+        <div class="feature-tile" data-feature="rightclick-tool">
+          <div class="tile-icon">🖱️</div>
+          <div class="tile-content">
+            <h3 class="tile-title">Right Click</h3>
+            <p class="tile-desc">Unblock context menus</p>
+          </div>
+        </div>
+
+        <!-- Download Manager Tile -->
+        <div class="feature-tile" data-feature="download-manager">
+          <div class="tile-icon">⬇️</div>
+          <div class="tile-content">
+            <h3 class="tile-title">Download Manager</h3>
+            <p class="tile-desc">Download images and videos</p>
+          </div>
+        </div>
+
+        <!-- Settings Tile -->
+        <div class="feature-tile" data-feature="settings">
+          <div class="tile-icon">⚙️</div>
+          <div class="tile-content">
+            <h3 class="tile-title">Settings</h3>
+            <p class="tile-desc">Configure extension options</p>
+          </div>
+        </div>
+
+        <!-- About Tile -->
+        <div class="feature-tile" data-feature="about">
+          <div class="tile-icon">ℹ️</div>
+          <div class="tile-content">
+            <h3 class="tile-title">About</h3>
+            <p class="tile-desc">Extension information</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Content Areas -->
+      <div class="content-area">
+        <!-- Tab Manager Content -->
+        <div id="tab-manager-content" class="feature-content active">
+          <div class="content-header">
+            <h2>Tab Manager</h2>
+            <div class="url-counter" id="urlCounter">0 URLs</div>
+          </div>
+
+          <div class="message-area" id="messageArea"></div>
+
+          <div class="action-grid">
+            <button id="btnAddCurrent" class="action-btn">
+              <span class="btn-icon-wrap">📑</span>
+              <span>Add Current</span>
+            </button>
+            <button id="btnAddManual" class="action-btn">
+              <span class="btn-icon-wrap">✏️</span>
+              <span>Add URL</span>
+            </button>
+            <button id="btnEdit" class="action-btn">
+              <span class="btn-icon-wrap">📋</span>
+              <span>Manage</span>
+            </button>
+            <button id="btnClearAll" class="action-btn">
+              <span class="btn-icon-wrap">🗑️</span>
+              <span>Clear All</span>
+            </button>
+          </div>
+
+          <!-- Manual Add Section -->
+          <div id="manualAddSection" class="hidden section-panel">
+            <input type="text" id="manualUrlInput" placeholder="Enter URL (e.g., https://example.com)" />
+            <div class="row-actions">
+              <button id="btnSaveManual" class="btn btn-small btn-primary">Save URL</button>
+              <button id="btnCancelManual" class="btn btn-small btn-text">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Edit List Section -->
+          <div id="editSection" class="hidden section-panel">
+            <ul id="urlList"></ul>
+            <div class="row-actions">
+              <button id="btnCloseEdit" class="btn btn-small btn-primary">Done</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Import/Export Section -->
+          <div class="section-panel">
+            <div class="section-title">Data Management</div>
+            <div class="data-actions">
+              <button id="btnExport" class="btn btn-secondary btn-small">
+                <span>📤</span> Export
+              </button>
+              <button id="btnImport" class="btn btn-secondary btn-small">
+                <span>📥</span> Import
+              </button>
+            </div>
+            <input type="file" id="fileInput" accept=".json" />
+          </div>
+
+          <div class="eject-action">
+            <button id="btnEject" class="btn btn-primary btn-large">
+              <span>🚀</span> EJECT ALL
+            </button>
+          </div>
+        </div>
+
+        <!-- Screenshot Tool Content -->
+        <div id="screenshot-tool-content" class="feature-content">
+          <div class="content-header">
+            <h2>Screenshot Tool</h2>
+          </div>
+
+          <div class="message-area" id="screenshotMessage"></div>
+
+          <!-- Screenshot Type Selection -->
+          <div class="section-panel">
+            <div class="section-title">Capture Mode</div>
+            <div class="screenshot-options">
+              <button id="btnCaptureVisible" class="capture-btn">
+                <span class="capture-icon">📷</span>
+                <span class="capture-label">Visible Area</span>
+                <span class="capture-desc">Current viewport</span>
+              </button>
+              <button id="btnCaptureFull" class="capture-btn">
+                <span class="capture-icon">📄</span>
+                <span class="capture-label">Full Page</span>
+                <span class="capture-desc">Entire scrollable page</span>
+              </button>
+              <button id="btnCaptureWindow" class="capture-btn">
+                <span class="capture-icon">🖥️</span>
+                <span class="capture-label">Window</span>
+                <span class="capture-desc">Browser window</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Screenshot Editor (Hidden by default) -->
+          <div id="screenshotEditor" class="hidden section-panel">
+            <div class="section-title">Screenshot Editor</div>
+            
+            <div class="editor-canvas-container">
+              <canvas id="screenshotCanvas"></canvas>
+            </div>
+
+            <div class="editor-toolbar">
+              <div class="tool-group">
+                <span class="tool-label">Tools</span>
+                <div class="tool-buttons">
+                  <button class="tool-btn active" data-tool="select" title="Select/Move">
+                    <span>⊞</span>
+                  </button>
+                  <button class="tool-btn" data-tool="crop" title="Crop">
+                    <span>⊟</span>
+                  </button>
+                  <button class="tool-btn" data-tool="marker" title="Color Marker">
+                    <span>✏️</span>
+                  </button>
+                  <button class="tool-btn" data-tool="text" title="Add Text">
+                    <span>T</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="tool-group">
+                <span class="tool-label">Color</span>
+                <div class="color-picker-wrap">
+                  <input type="color" id="markerColor" value="#ff0000" class="color-input" />
+                  <div class="color-presets">
+                    <button class="color-preset" data-color="#ff0000" style="background:#ff0000"></button>
+                    <button class="color-preset" data-color="#00ff00" style="background:#00ff00"></button>
+                    <button class="color-preset" data-color="#0000ff" style="background:#0000ff"></button>
+                    <button class="color-preset" data-color="#ffff00" style="background:#ffff00"></button>
+                    <button class="color-preset" data-color="#ff00ff" style="background:#ff00ff"></button>
+                    <button class="color-preset" data-color="#ffffff" style="background:#ffffff"></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tool-group">
+                <span class="tool-label">Text</span>
+                <input type="text" id="textInput" placeholder="Enter text..." class="text-input" />
+              </div>
+
+              <div class="tool-group">
+                <span class="tool-label">Actions</span>
+                <div class="action-buttons">
+                  <button id="btnUndo" class="editor-action-btn" title="Undo">↩</button>
+                  <button id="btnRedo" class="editor-action-btn" title="Redo">↪</button>
+                  <button id="btnDownloadScreenshot" class="editor-action-btn btn-save" title="Save">💾</button>
+                  <button id="btnCloseEditor" class="editor-action-btn btn-close" title="Close">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screenshot Preview (Hidden by default) -->
+          <div id="screenshotPreview" class="hidden section-panel">
+            <div class="section-title">Screenshot Preview</div>
+            <div class="preview-container">
+              <img id="screenshotImage" alt="Screenshot Preview" />
+            </div>
+            <div class="preview-actions">
+              <button id="btnEditScreenshot" class="btn btn-primary btn-small">Edit</button>
+              <button id="btnDownloadPreview" class="btn btn-secondary btn-small">Download</button>
+              <button id="btnClosePreview" class="btn btn-text btn-small">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PiP Video Content -->
+        <div id="pip-tool-content" class="feature-content">
+          <div class="content-header">
+            <h2>Picture-in-Picture Video</h2>
+          </div>
+
+          <div class="message-area" id="pipMessage"></div>
+
+          <div class="section-panel">
+            <div class="section-title">Floating Video Player</div>
+            <p class="pip-description">Watch videos while browsing! Click to activate Picture-in-Picture mode for any video on the current page.</p>
+            
+            <button id="btnActivatePiP" class="pip-activate-btn">
+              <span class="pip-icon">🎬</span>
+              <span class="pip-label">Activate PiP</span>
+              <span class="pip-desc">Find and float video</span>
+            </button>
+          </div>
+
+          <div id="pipControls" class="section-panel hidden">
+            <div class="section-title">PiP Controls</div>
+            
+            <div class="pip-status">
+              <span id="pipStatus">Ready</span>
+            </div>
+
+            <div class="pip-control-buttons">
+              <button id="btnPiPRewind" class="pip-control-btn" title="Rewind 10 seconds">
+                <span>⏪</span>
+                <span class="btn-label">-10s</span>
+              </button>
+              <button id="btnPiPPlayPause" class="pip-control-btn" title="Play/Pause">
+                <span>⏸️</span>
+                <span class="btn-label">Play/Pause</span>
+              </button>
+              <button id="btnPiPForward" class="pip-control-btn" title="Forward 10 seconds">
+                <span>⏩</span>
+                <span class="btn-label">+10s</span>
+              </button>
+              <button id="btnPiPMute" class="pip-control-btn" title="Mute/Unmute">
+                <span>🔊</span>
+                <span class="btn-label">Mute</span>
+              </button>
+            </div>
+
+            <div class="pip-timeline">
+              <span id="pipCurrentTime" class="time-display">0:00</span>
+              <input type="range" id="pipTimeline" class="pip-timeline-slider" min="0" max="100" value="0" />
+              <span id="pipDuration" class="time-display">0:00</span>
+            </div>
+
+            <button id="btnClosePiP" class="btn btn-small btn-text">Close PiP Player</button>
+          </div>
+        </div>
+
+        <!-- Right Click Enabler Content -->
+        <div id="rightclick-tool-content" class="feature-content">
+          <div class="content-header">
+            <h2>Right-Click Enabler</h2>
+          </div>
+
+          <div class="message-area" id="rightclickMessage"></div>
+
+          <div class="section-panel">
+            <div class="section-title">Enable Right-Click & Copy</div>
+            <p class="rightclick-description">Some websites block right-click, text selection, and copy functions. This tool unblocks them so you can access the context menu and copy content freely.</p>
+            
+            <button id="btnEnableRightClick" class="rightclick-activate-btn">
+              <span class="rightclick-icon">🖱️</span>
+              <span class="rightclick-label">Enable Right-Click</span>
+              <span class="rightclick-desc">Unblock context menu on this page</span>
+            </button>
+          </div>
+
+          <div id="rightclickStatus" class="section-panel hidden">
+            <div class="section-title">Status</div>
+            <div class="rightclick-status-active">
+              <span class="status-icon">✓</span>
+              <span>Right-click is enabled on this page</span>
+            </div>
+            <div class="rightclick-features">
+              <div class="feature-item">
+                <span class="feature-icon">✅</span>
+                <span>Context Menu</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✅</span>
+                <span>Text Selection</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✅</span>
+                <span>Copy (Ctrl+C)</span>
+              </div>
+            </div>
+            <button id="btnDisableRightClick" class="btn btn-small btn-text">Disable</button>
+          </div>
+        </div>
+
+        <!-- Download Manager Content -->
+        <div id="download-manager-content" class="feature-content">
+          <div class="content-header">
+            <h2>Download Manager</h2>
+          </div>
+
+          <div class="message-area" id="imageusMessage"></div>
+
+          <div class="section-panel">
+            <div class="section-title">Media Download Helper</div>
+            <p class="imageus-description">Add download buttons to all images and videos on the current page. Click to download any media file and choose where to save it.</p>
+            
+            <button id="btnEnableDownloads" class="rightclick-activate-btn">
+              <span class="rightclick-icon">⬇️</span>
+              <span class="rightclick-label">Enable Download Buttons</span>
+              <span class="rightclick-desc">Add download buttons to all media</span>
+            </button>
+          </div>
+
+          <div id="imageusStatus" class="section-panel hidden">
+            <div class="section-title">Status</div>
+            <div class="imageus-status-active">
+              <span class="status-icon">✓</span>
+              <span>Download buttons are active on this page</span>
+            </div>
+            <div class="download-stats">
+              <div class="stat-item">
+                <span class="stat-label">Images Found</span>
+                <span id="imageCount" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Videos Found</span>
+                <span id="videoCount" class="stat-value">0</span>
+              </div>
+            </div>
+            <button id="btnDisableDownloads" class="btn btn-small btn-text">Disable Download Buttons</button>
+          </div>
+        </div>
+
+        <!-- Settings Content -->
+        <div id="settings-content" class="feature-content">
+          <div class="content-header">
+            <h2>Settings</h2>
+          </div>
+
+          <div class="settings-section">
+            <div class="section-title">Screenshot Settings</div>
+            
+            <div class="setting-item">
+              <label for="screenshotFormat">Format</label>
+              <select id="screenshotFormat" class="setting-select">
+                <option value="png">PNG (Recommended)</option>
+                <option value="jpeg">JPEG</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <label for="screenshotQuality">Quality (JPEG)</label>
+              <input type="range" id="screenshotQuality" min="10" max="100" value="90" class="setting-range" />
+              <span id="qualityValue" class="setting-value">90%</span>
+            </div>
+
+            <div class="setting-item">
+              <label for="autoDownload">Auto-download screenshots</label>
+              <label class="toggle">
+                <input type="checkbox" id="autoDownload" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="section-title">Tab Manager Settings</div>
+            
+            <div class="setting-item">
+              <label for="autoEject">Close current window after eject</label>
+              <label class="toggle">
+                <input type="checkbox" id="autoEject" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="section-title">Extension Behavior</div>
+            
+            <div class="setting-item">
+              <label for="showNotifications">Show notifications</label>
+              <label class="toggle">
+                <input type="checkbox" id="showNotifications" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <label for="rememberLastAction">Remember last action</label>
+              <label class="toggle">
+                <input type="checkbox" id="rememberLastAction" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="section-title">Privacy & Security</div>
+            
+            <div class="setting-item">
+              <label for="clearDataOnClose">Clear data on extension close</label>
+              <label class="toggle">
+                <input type="checkbox" id="clearDataOnClose" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <label for="enableAnalytics">Enable usage analytics</label>
+              <label class="toggle">
+                <input type="checkbox" id="enableAnalytics" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Content -->
+        <div id="about-content" class="feature-content">
+          <div class="content-header">
+            <h2>About AIO</h2>
+          </div>
+
+          <div class="about-section">
+            <div class="about-card">
+              <div class="about-header">
+                <div class="about-icon">🚀</div>
+                <div class="about-title">AIO - All In One Tools</div>
+              </div>
+              <div class="about-details">
+                <div class="detail-item">
+                  <span class="detail-label">Version:</span>
+                  <span class="detail-value">1.0.3</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Release Date:</span>
+                  <span class="detail-value">April 2026</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Status:</span>
+                  <span class="detail-value status-active">Active</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="author-section">
+              <div class="author-header">
+                <div class="author-avatar">👨‍💻</div>
+                <div class="author-info">
+                  <div class="author-name">Bishal Aryal</div>
+                  <div class="author-title">Extension Developer</div>
+                </div>
+              </div>
+              
+              <div class="author-links">
+                <a href="https://bishalaryal.com.np" target="_blank" class="author-link">
+                  <span class="link-icon">🌐</span>
+                  <span>Website</span>
+                </a>
+                <a href="mailto:bishalaryal@example.com" class="author-link">
+                  <span class="link-icon">📧</span>
+                  <span>Email</span>
+                </a>
+                <a href="https://github.com/bishalaryal" target="_blank" class="author-link">
+                  <span class="link-icon">📱</span>
+                  <span>GitHub</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon">📑</div>
+                <div class="feature-title">Tab Manager</div>
+                <div class="feature-desc">Save and organize your favorite URLs with import/export functionality</div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📸</div>
+                <div class="feature-title">Screenshot Tool</div>
+                <div class="feature-desc">Capture visible area, full page, or window screenshots with editor</div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <div class="feature-title">PiP Video</div>
+                <div class="feature-desc">Floating video player for multitasking while browsing</div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🖱️</div>
+                <div class="feature-title">Right Click Enabler</div>
+                <div class="feature-desc">Unblock context menus and copy functions on protected sites</div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">⬇️</div>
+                <div class="feature-title">Download Manager</div>
+                <div class="feature-desc">Add download buttons to all images and videos on any page</div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <div class="feature-title">Settings</div>
+                <div class="feature-desc">Customizable preferences for all extension features</div>
+              </div>
+            </div>
+
+            <div class="support-section">
+              <div class="support-header">
+                <div class="support-icon">💡</div>
+                <div class="support-title">Need Help?</div>
+              </div>
+              <div class="support-content">
+                <p>For support, feature requests, or bug reports:</p>
+                <ul>
+                  <li>Visit our <a href="https://bishalaryal.com.np" target="_blank">website</a></li>
+                  <li>Email us at <a href="mailto:bishalaryal@example.com">bishalaryal@example.com</a></li>
+                  <li>Check our <a href="https://github.com/bishalaryal/aio-extension" target="_blank">GitHub repository</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="legal-section">
+              <div class="legal-item">
+                <span class="legal-label">Privacy Policy:</span>
+                <span class="legal-value">This extension does not collect personal data</span>
+              </div>
+              <div class="legal-item">
+                <span class="legal-label">License:</span>
+                <span class="legal-value">MIT License</span>
+              </div>
+              <div class="legal-item">
+                <span class="legal-label">Browser Support:</span>
+                <span class="legal-value">Chrome, Edge, Firefox</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <span class="footer-text">Made with ❤️ by Bishal Aryal</span>
+        <div class="footer-links">
+          <a href="https://bishalaryal.com.np" target="_blank">Website</a>
+          <a href="mailto:bishalaryal@example.com">Contact</a>
+          <a href="https://github.com/bishalaryal" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

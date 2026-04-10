@@ -1,0 +1,476 @@
+/* ========================================
+   AIO Screenshot Editor
+   Full-page editor styles
+   ======================================== */
+
+:root {
+  /* Primary Colors - Dead Yellow & Crimson */
+  --dead-yellow: #d4a017;
+  --dead-yellow-light: #e8c547;
+  --dead-yellow-dark: #b8860b;
+  --crimson: #dc143c;
+  --crimson-light: #ff1744;
+  --crimson-dark: #b71c1c;
+  
+  /* Background Colors */
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-toolbar: #16213e;
+  --bg-panel: #0f3460;
+  --bg-input: #0a2a5a;
+  
+  /* Text Colors */
+  --text-primary: #e8e8e8;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6b7280;
+  
+  /* Accent */
+  --accent-primary: var(--dead-yellow);
+  --accent-secondary: var(--crimson);
+  --accent-gradient: linear-gradient(135deg, var(--dead-yellow) 0%, var(--crimson) 100%);
+  
+  /* Status */
+  --success: #22c55e;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Borders */
+  --border-color: #2a3f5f;
+  --border-light: #3a5a7a;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  
+  /* Transitions */
+  --transition: all 0.25s ease-in-out;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Main Editor Container */
+#aio-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ========================================
+   Header
+   ======================================== */
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 2px solid transparent;
+  border-image: var(--accent-gradient) 1;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.editor-title {
+  font-size: 24px;
+  font-weight: 900;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+}
+
+.editor-version {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-panel);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 16px;
+}
+
+.header-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.close-btn {
+  background: var(--crimson);
+  color: white;
+  border-color: var(--crimson);
+}
+
+.close-btn:hover {
+  background: var(--crimson-dark);
+}
+
+/* ========================================
+   Toolbar
+   ======================================== */
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 24px;
+  background: var(--bg-toolbar);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 99;
+  align-items: center;
+}
+
+.tool-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: var(--bg-panel);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.tool-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tool-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.tool-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tool-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+.tool-btn.active {
+  background: var(--accent-gradient);
+  color: white;
+  border-color: transparent;
+}
+
+.tool-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Color Picker */
+.color-picker-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-input {
+  width: 32px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  cursor: pointer;
+}
+
+.color-presets {
+  display: flex;
+  gap: 4px;
+}
+
+.color-preset {
+  width: 24px;
+  height: 24px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.color-preset:hover {
+  transform: scale(1.15);
+}
+
+.color-preset.active {
+  border-color: white;
+  box-shadow: 0 0 0 2px var(--accent-primary);
+}
+
+/* Brush Size */
+.brush-size {
+  width: 80px;
+  accent-color: var(--accent-primary);
+}
+
+.brush-size-value {
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 35px;
+}
+
+/* Text Input */
+.text-input {
+  width: 140px;
+  padding: 6px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.text-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(212, 160, 23, 0.2);
+}
+
+.text-input::placeholder {
+  color: var(--text-muted);
+}
+
+.font-size-select {
+  padding: 6px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.font-size-select:focus {
+  border-color: var(--accent-primary);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.action-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-color);
+  margin: 0 4px;
+}
+
+.editor-action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.editor-action-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+.save-btn {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.save-btn:hover {
+  background: #16a34a;
+  border-color: #16a34a;
+}
+
+.editor-action-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ========================================
+   Canvas Container
+   ======================================== */
+.canvas-container {
+  flex: 1;
+  overflow: auto;
+  background: #0a0a14;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.canvas-wrapper {
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  background: repeating-conic-gradient(#1a1a2e 0% 25%, #0f0f1a 0% 50%) 50% / 20px 20px;
+  border-radius: 2px;
+}
+
+#screenshotCanvas {
+  display: block;
+  max-width: none;
+}
+
+/* Crop Overlay */
+.crop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: crosshair;
+}
+
+.crop-overlay.hidden {
+  display: none;
+}
+
+.crop-area {
+  position: absolute;
+  border: 2px dashed var(--accent-primary);
+  background: rgba(212, 160, 23, 0.1);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   Footer / Status Bar
+   ======================================== */
+.editor-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 24px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  font-size: 12px;
+  color: var(--text-muted);
+  z-index: 99;
+}
+
+.author-info {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ========================================
+   Utility
+   ======================================== */
+.hidden {
+  display: none !important;
+}
+
+/* Scrollbar */
+.canvas-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.canvas-container::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+.canvas-container::-webkit-scrollbar-thumb {
+  background: var(--bg-panel);
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+}
+
+.canvas-container::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-card-hover);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 900px) {
+  .editor-toolbar {
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  
+  .tool-group {
+    padding: 4px 8px;
+    gap: 6px;
+  }
+  
+  .tool-label {
+    display: none;
+  }
+  
+  .text-input {
+    width: 100px;
+  }
+  
+  .editor-title {
+    font-size: 18px;
+  }
+}
